@@ -1,0 +1,45 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>WebApi</name>
+    </assembly>
+    <members>
+        <member name="T:WebApi.Controllers.TodoTaskController">
+            <summary>
+            TodoTask
+            </summary>
+        </member>
+        <member name="M:WebApi.Controllers.TodoTaskController.Get">
+            <summary>
+            Get
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:WebApi.Controllers.TodoTaskController.Get(System.Int32)">
+            <summary>
+            Get
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:WebApi.Controllers.TodoTaskController.Post(System.String)">
+            <summary>
+            Post
+            </summary>
+            <param name="value"></param>
+        </member>
+        <member name="M:WebApi.Controllers.TodoTaskController.Put(System.Int32,System.String)">
+            <summary>
+            Put
+            </summary>
+            <param name="id"></param>
+            <param name="value"></param>
+        </member>
+        <member name="M:WebApi.Controllers.TodoTaskController.Delete(System.Int32)">
+            <summary>
+            Delete
+            </summary>
+            <param name="id"></param>
+        </member>
+    </members>
+</doc>
