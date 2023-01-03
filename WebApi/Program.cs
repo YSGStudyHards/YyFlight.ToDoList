@@ -1,5 +1,4 @@
 using Microsoft.OpenApi.Models;
-using System.IO;
 using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -7,7 +6,7 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 
 //builder.Services.AddMvc();
-
+builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 
 // 添加Swagger服务
@@ -25,36 +24,39 @@ builder.Services.AddSwaggerGen(options =>
         }
     });
 
-    //// 获取xml文件名
-    //var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
-    //// 获取xml文件路径
-    //var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
-    //// 添加控制器层注释，true表示显示控制器注释
-    //options.IncludeXmlComments(xmlPath, true);
-    ////c.IncludeXmlComments(path, true); // true : 显示控制器层注释
-    //options.OrderActionsBy(o => o.RelativePath); // 对action的名称进行排序，如果有多个，就可以看见效果了。
-
-    // using System.Reflection;
-    var xmlFilename = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
-    options.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, xmlFilename));
+    // 获取xml文件名
+    var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+    // 获取xml文件路径
+    var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
+    // 添加控制器层注释，true表示显示控制器注释
+    options.IncludeXmlComments(xmlPath, true);
+    // 对action的名称进行排序，如果有多个，就可以看见效果了
+    options.OrderActionsBy(o => o.RelativePath); 
 });
 
 
 var app = builder.Build();
 
-
 // Configure the HTTP request pipeline.
+if (app.Environment.IsDevelopment())
+{
+    app.UseDeveloperExceptionPage();
+}
 
-
-// 添加Swagger相关中间件
-app.UseSwagger();
+//使中间件能够将生成的Swagger用作JSON端点.
+//app.UseSwagger();
+app.UseSwagger(c => { c.RouteTemplate = "swagger/{documentName}/swagger.json"; });
+//允许中间件为Swagger UI（HTML、JS、CSS等）提供服务，指定swagger JSON端点.
 app.UseSwaggerUI(options =>
 {
-    options.SwaggerEndpoint("/swagger/v1/swagger.json", "v1");
+    options.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
     options.RoutePrefix = string.Empty;
 });
 
-app.UseStaticFiles();
+
+app.UseHttpsRedirection();
+
+app.MapControllers();
 
 
 app.Run();
