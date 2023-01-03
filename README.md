@@ -7,11 +7,12 @@
 - [MongoDB从入门到实战之Docker快速安装MongoDB👉](https://www.cnblogs.com/Can-daydayup/p/16838976.html)
 - [MongoDB从入门到实战之MongoDB工作常用操作命令👉](https://www.cnblogs.com/Can-daydayup/p/16840085.html)
 - [MongoDB从入门到实战之.NET Core使用MongoDB开发ToDoList系统（1）-后端项目框架搭建👉](https://www.cnblogs.com/Can-daydayup/p/17020707.html)
-- MongoDB从入门到实战之.NET Core使用MongoDB开发ToDoList系统（2）-系统数据集合设计
-- MongoDB从入门到实战之.NET Core使用MongoDB开发ToDoList系统（3）-MongoDB连接和基本操作封装
-- MongoDB从入门到实战之.NET Core使用MongoDB开发ToDoList系统（4）-Blazor快速入门
-- MongoDB从入门到实战之.NET Core使用MongoDB开发ToDoList系统（5）-Blazor前端框架搭建
-- MongoDB从入门到实战之.NET Core使用MongoDB开发ToDoList系统（6）-用户登录注册模块开发
-- MongoDB从入门到实战之.NET Core使用MongoDB开发ToDoList系统（7）-用户JWT授权验证
-- MongoDB从入门到实战之.NET Core使用MongoDB开发ToDoList系统（8）-TodoList增删改查功能开发
-- MongoDB从入门到实战之.NET Core使用MongoDB开发ToDoList系统（9）-Docker打包并部署
+- [MongoDB从入门到实战之.NET Core使用MongoDB开发ToDoList系统（2）-Swagger框架集成👉](https://www.cnblogs.com/Can-daydayup/p/17020885.html)
+- MongoDB从入门到实战之.NET Core使用MongoDB开发ToDoList系统（3）-系统数据集合设计
+- MongoDB从入门到实战之.NET Core使用MongoDB开发ToDoList系统（4）-MongoDB连接和基本操作封装
+- MongoDB从入门到实战之.NET Core使用MongoDB开发ToDoList系统（5）-Blazor快速入门
+- MongoDB从入门到实战之.NET Core使用MongoDB开发ToDoList系统（6）-Blazor前端框架搭建
+- MongoDB从入门到实战之.NET Core使用MongoDB开发ToDoList系统（7）-用户登录注册模块开发
+- MongoDB从入门到实战之.NET Core使用MongoDB开发ToDoList系统（8）-用户JWT授权验证
+- MongoDB从入门到实战之.NET Core使用MongoDB开发ToDoList系统（9）-TodoList增删改查功能开发
+- MongoDB从入门到实战之.NET Core使用MongoDB开发ToDoList系统（10）-Docker打包并部署
