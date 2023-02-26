@@ -11,6 +11,8 @@
 - 基础设施层（Infrastructure）
 > 为其它各层提供通用的技术和基础服务，包括第三方工具、驱动、消息中间件、网关、文件、缓存以及数据库等。
 
+![](https://img2023.cnblogs.com/blog/1336199/202302/1336199-20230226231239769-1635069675.png)
+
 # MongoDB从入门到实战的相关教程
 - [MongoDB从入门到实战之MongoDB简介👉](https://www.cnblogs.com/Can-daydayup/p/16797608.html)
 - [MongoDB从入门到实战之MongoDB快速入门👉](https://www.cnblogs.com/Can-daydayup/p/16804415.html)
