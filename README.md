@@ -1,6 +1,16 @@
 # YyFlight.ToDoList
 .NET7 MongoDB从入门到实战基础教程，该项目后端使用的是.NET7、前端页面使用Blazor、使用MongoDB存储数据，更多相关内容大家可以看目录中的MongoDB从入门到实战的相关教程。该系列教程可作为.NET Core入门项目进行学习，感兴趣的小伙伴可以关注博主和我一起学习共同进步。
 
+# 应用分成
+- 表现层（WebApi）
+> 为用户提供接口，实现应用层与用户的交互。
+- 应用层（Application）
+> 业务代码主要编写层，表示层与领域层的桥梁。
+- 仓储层（Repository）
+> 数据访问的封装，通过隔离具体的存储层技术实现来保证业务逻辑的稳定性。
+- 基础设施层（Infrastructure）
+> 为其它各层提供通用的技术和基础服务，包括第三方工具、驱动、消息中间件、网关、文件、缓存以及数据库等。
+
 # MongoDB从入门到实战的相关教程
 - [MongoDB从入门到实战之MongoDB简介👉](https://www.cnblogs.com/Can-daydayup/p/16797608.html)
 - [MongoDB从入门到实战之MongoDB快速入门👉](https://www.cnblogs.com/Can-daydayup/p/16804415.html)
