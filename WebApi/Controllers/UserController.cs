@@ -4,12 +4,12 @@ using Microsoft.AspNetCore.Mvc;
 namespace WebApi.Controllers
 {
     /// <summary>
-    /// 待办任务清单管理
+    /// 用户管理
     /// </summary>
     [ApiController]
     [Produces("application/json")]
     [Route("api/[controller]")]
-    public class TodoTaskController : ControllerBase
+    public class UserController : ControllerBase
     {
     }
 }
