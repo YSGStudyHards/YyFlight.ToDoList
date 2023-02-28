@@ -9,6 +9,9 @@ using System.Threading.Tasks;
 
 namespace Repository.Domain.System
 {
+    /// <summary>
+    /// 
+    /// </summary>
     [Table("yyflight_todolist_updatelog")]
     public class UpdateLog
     {
