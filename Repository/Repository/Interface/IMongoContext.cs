@@ -17,7 +17,7 @@ namespace Repository.Interface
         /// </summary>
         /// <param name="func"></param>
         /// <returns></returns>
-        void AddCommand(Func func);
+        void AddCommand(Func<> func);
 
         /// <summary>
         /// 保存更改[异步]
