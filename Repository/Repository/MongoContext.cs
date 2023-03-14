@@ -35,18 +35,28 @@ namespace Repository
         }
 
         /// <summary>
-        /// 添加命令操作
+        /// 添加命令操作[异步]
         /// </summary>
         /// <param name="func">委托</param>
         /// <returns></returns>
-        public Task AddCommand(Func<Task> func)
+        public Task AddCommandAsync(Func<Task> func)
         {
             _commands.Add(func);
             return Task.CompletedTask;
         }
 
         /// <summary>
-        /// 保存修改
+        /// 添加命令操作[同步]
+        /// </summary>
+        /// <param name="func">委托</param>
+        /// <returns></returns>
+        public void AddCommand(Func<Task> func)
+        {
+            _commands.Add(func);
+        }
+
+        /// <summary>
+        /// 保存更改
         /// </summary>
         /// <returns></returns>
         public int SaveChanges()
@@ -58,6 +68,25 @@ namespace Repository
             }
             _commands.Clear();
             return qtd;
+        }
+
+
+        public async Task<int> SaveChanges()
+        {
+            ConfigureMongo();
+
+            using (Session = await MongoClient.StartSessionAsync())
+            {
+                Session.StartTransaction();
+
+                var commandTasks = _commands.Select(c => c());
+
+                await Task.WhenAll(commandTasks);
+
+                await Session.CommitTransactionAsync();
+            }
+
+            return _commands.Count;
         }
 
         /// <summary>

@@ -1,18 +1,33 @@
 ﻿using MongoDB.Driver;
+using System;
 
 namespace Repository.Interface
 {
     public interface IMongoContext
     {
         /// <summary>
-        /// 添加命令操作
+        /// 添加命令操作[异步]
         /// </summary>
         /// <param name="func"></param>
         /// <returns></returns>
-        Task AddCommand(Func<Task> func);
+        Task AddCommandAsync(Func<Task> func);
 
         /// <summary>
-        /// 保存修改
+        /// 添加命令操作[同步]
+        /// </summary>
+        /// <param name="func"></param>
+        /// <returns></returns>
+        void AddCommand(Func func);
+
+        /// <summary>
+        /// 保存更改[异步]
+        /// </summary>
+        /// <returns></returns>
+        Task<int> SaveChangesAsync();
+
+
+        /// <summary>
+        /// 保存更改[同步]
         /// </summary>
         /// <returns></returns>
         int SaveChanges();

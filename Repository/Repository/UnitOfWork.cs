@@ -11,9 +11,9 @@ namespace Repository
             _context = context;
         }
 
-        public bool Commit()
+        public async Task<bool> Commit()
         {
-            return _context.SaveChanges() > 0;
+            return await _context.SaveChanges() > 0;
         }
 
         public void Dispose()

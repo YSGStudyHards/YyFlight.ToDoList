@@ -8,6 +8,6 @@ namespace Repository.Interface
 {
     public interface IUnitOfWork : IDisposable
     {
-        bool Commit();
+        Task<bool> Commit();
     }
 }
