@@ -1,4 +1,7 @@
 using Microsoft.OpenApi.Models;
+using Repository.Interface;
+using Repository;
+using Repository.Persistence;
 using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -33,6 +36,15 @@ builder.Services.AddSwaggerGen(options =>
     // 对action的名称进行排序，如果有多个，就可以看见效果了
     options.OrderActionsBy(o => o.RelativePath); 
 });
+
+// Configure the persistence in another layer
+MongoDbPersistence.Configure();
+
+//注册数据库基础操作和工作单元
+builder.Services.AddScoped<IMongoContext, MongoContext>();
+builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+//builder.Services.AddScoped<IProductRepository, ProductRepository>();
+
 
 
 var app = builder.Build();
