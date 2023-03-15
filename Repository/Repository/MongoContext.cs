@@ -1,6 +1,4 @@
-﻿using MongoDB.Bson.Serialization.Conventions;
-using MongoDB.Bson;
-using MongoDB.Driver;
+﻿using MongoDB.Driver;
 using Microsoft.Extensions.Configuration;
 using Repository.Interface;
 
@@ -8,86 +6,51 @@ namespace Repository
 {
     public class MongoContext : IMongoContext
     {
-        private IMongoDatabase Database { get; set; }
-
+        private IMongoDatabase _database;
+        private MongoClient _mongoClient;
+        private readonly IConfiguration _configuration;
         private readonly List<Func<Task>> _commands;
 
         public MongoContext(IConfiguration configuration)
         {
-            // Set Guid to CSharp style (with dash -)
-            BsonDefaults.GuidRepresentation = GuidRepresentation.CSharpLegacy;
-
+            _configuration = configuration;
             // Every command will be stored and it'll be processed at SaveChanges
             _commands = new List<Func<Task>>();
-
-            RegisterConventions();
-
             // Configure mongo (You can inject the config, just to simplify)
-            var mongoClient = new MongoClient(configuration.GetSection("MongoSettings").GetSection("Connection").Value);
-
-            Database = mongoClient.GetDatabase(configuration.GetSection("MongoSettings").GetSection("DatabaseName").Value);
-        }
-
-        private void RegisterConventions()
-        {
-            var pack = new ConventionPack { new IgnoreExtraElementsConvention(true), new IgnoreIfDefaultConvention(true) };
-            ConventionRegistry.Register("My Solution Conventions", pack, t => true);
+            _mongoClient = new MongoClient(_configuration["MongoSettings:Connection"]);
+            _database = _mongoClient.GetDatabase(_configuration["MongoSettings:DatabaseName"]);
         }
 
         /// <summary>
-        /// 添加命令操作[异步]
+        /// 添加命令操作
         /// </summary>
         /// <param name="func">委托</param>
         /// <returns></returns>
-        public Task AddCommandAsync(Func<Task> func)
+        public async Task AddCommandAsync(Func<Task> func)
         {
             _commands.Add(func);
-            return Task.CompletedTask;
-        }
-
-        /// <summary>
-        /// 添加命令操作[同步]
-        /// </summary>
-        /// <param name="func">委托</param>
-        /// <returns></returns>
-        public void AddCommand(Func<Task> func)
-        {
-            _commands.Add(func);
+            await Task.CompletedTask;
         }
 
         /// <summary>
         /// 保存更改
         /// </summary>
         /// <returns></returns>
-        public int SaveChanges()
+        public async Task<int> SaveChangesAsync()
         {
-            var qtd = _commands.Count;
-            foreach (var command in _commands)
+            using (IClientSessionHandle session = await _mongoClient.StartSessionAsync())
             {
-                command();
-            }
-            _commands.Clear();
-            return qtd;
-        }
-
-
-        public async Task<int> SaveChanges()
-        {
-            ConfigureMongo();
-
-            using (Session = await MongoClient.StartSessionAsync())
-            {
-                Session.StartTransaction();
+                session.StartTransaction();
 
                 var commandTasks = _commands.Select(c => c());
 
                 await Task.WhenAll(commandTasks);
 
-                await Session.CommitTransactionAsync();
+                await session.CommitTransactionAsync();
             }
-
             return _commands.Count;
         }
+
 
         /// <summary>
         /// 获取集合数据
@@ -97,7 +60,7 @@ namespace Repository
         /// <returns></returns>
         public IMongoCollection<T> GetCollection<T>(string name)
         {
-            return Database.GetCollection<T>(name);
+            return _database.GetCollection<T>(name);
         }
 
         /// <summary>

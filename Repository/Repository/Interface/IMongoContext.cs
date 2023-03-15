@@ -6,31 +6,17 @@ namespace Repository.Interface
     public interface IMongoContext
     {
         /// <summary>
-        /// 添加命令操作[异步]
+        /// 添加命令操作
         /// </summary>
         /// <param name="func"></param>
         /// <returns></returns>
         Task AddCommandAsync(Func<Task> func);
 
         /// <summary>
-        /// 添加命令操作[同步]
-        /// </summary>
-        /// <param name="func"></param>
-        /// <returns></returns>
-        void AddCommand(Func<> func);
-
-        /// <summary>
-        /// 保存更改[异步]
+        /// 保存更改
         /// </summary>
         /// <returns></returns>
         Task<int> SaveChangesAsync();
-
-
-        /// <summary>
-        /// 保存更改[同步]
-        /// </summary>
-        /// <returns></returns>
-        int SaveChanges();
 
         /// <summary>
         /// 获取集合数据
