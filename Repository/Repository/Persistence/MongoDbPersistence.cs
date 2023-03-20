@@ -9,6 +9,7 @@ namespace Repository.Persistence
     {
         public static void Configure()
         {
+            //在MongoDB中存储和检索Guid数据时，需要将Guid转换为Bson类型，因此使用BsonSerializer.RegisterSerializer方法将GuidSerializer注册为一个自定义序列化器，来实现Guid数据的序列化和反序列化。
             BsonSerializer.RegisterSerializer(new GuidSerializer(GuidRepresentation.CSharpLegacy));
             // Conventions
             var pack = new ConventionPack

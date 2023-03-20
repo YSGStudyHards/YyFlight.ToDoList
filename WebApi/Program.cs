@@ -37,7 +37,7 @@ builder.Services.AddSwaggerGen(options =>
     options.OrderActionsBy(o => o.RelativePath); 
 });
 
-// Configure the persistence in another layer
+//MongoDB持久化配置
 MongoDbPersistence.Configure();
 
 //注册数据库基础操作和工作单元
