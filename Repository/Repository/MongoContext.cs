@@ -56,7 +56,7 @@ namespace Repository
         /// 获取MongoDB集合
         /// </summary>
         /// <typeparam name="T"></typeparam>
-        /// <param name="name">反射模型名称</param>
+        /// <param name="name">集合名称</param>
         /// <returns></returns>
         public IMongoCollection<T> GetCollection<T>(string name)
         {

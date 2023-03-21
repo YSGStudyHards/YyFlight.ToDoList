@@ -4,7 +4,6 @@ using MongoDB.Driver;
 using Repository.Interface;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq.Expressions;
-using System.Reflection;
 
 namespace Repository
 {
@@ -12,14 +11,13 @@ namespace Repository
     {
         protected readonly IMongoContext _context;
         protected readonly IMongoCollection<T> _dbSet;
-        private readonly string _CollectionName;
-
+        private readonly string _collectionName;
 
         protected MongoBaseRepository(IMongoContext context)
         {
             _context = context;
-            _CollectionName = typeof(T).GetAttributeValue((TableAttribute m) => m.Name) ?? typeof(T).Name;
-            _dbSet = _context.GetCollection<T>(_CollectionName);
+            _collectionName = typeof(T).GetAttributeValue((TableAttribute m) => m.Name) ?? typeof(T).Name;
+            _dbSet = _context.GetCollection<T>(_collectionName);
         }
 
         #region 异步方法
@@ -158,6 +156,7 @@ namespace Repository
         /// <returns></returns>
         public async Task<T> GetByIdAsync(string id)
         {
+            var tt = new ObjectId(id);
             var queryData = await _dbSet.FindAsync(Builders<T>.Filter.Eq(" _id ", new ObjectId(id)));
             return queryData.FirstOrDefault();
         }

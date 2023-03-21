@@ -1,17 +1,9 @@
 ﻿using MongoDB.Bson.Serialization.Attributes;
 using MongoDB.Bson;
-using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Repository.Domain.System
 {
-    /// <summary>
-    /// 
-    /// </summary>
     [Table("yyflight_todolist_updatelog")]
     public class UpdateLog
     {
