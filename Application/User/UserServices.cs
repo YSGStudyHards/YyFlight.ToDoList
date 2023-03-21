@@ -61,13 +61,13 @@ namespace Application.User
             };
             await _mongoRepository.AddAsync(addUserInfo);
 
-            // it will be null
+            //查不到任何信息
             var testUserInfo = await _mongoRepository.GetByIdAsync(addUserInfo.Id);
 
-            // If everything is ok then:
+            //提交新增用户信息操作
             await _uow.Commit();
 
-            // The UserInfo will be added only after commit
+            //UserInfo只有在提交后才会被添加
             testUserInfo = await _mongoRepository.GetByIdAsync(addUserInfo.Id);
 
             return testUserInfo;
@@ -109,13 +109,13 @@ namespace Application.User
         {
             await _mongoRepository.DeleteAsync(id);
 
-            // it won't be null
+            //任然可以查询到用户信息
             var testUserInfo = await _mongoRepository.GetByIdAsync(id);
 
-            // If everything is ok then:
+            //提交用户删除操作
             await _uow.Commit();
 
-            // not it must by null
+            //已经查询不到该用户信息了
             testUserInfo = await _mongoRepository.GetByIdAsync(id);
 
             return testUserInfo == null;
