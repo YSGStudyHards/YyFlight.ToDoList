@@ -5,7 +5,7 @@ using Repository.Repositories.User;
 
 namespace Application.User
 {
-    public class UserServices : IUserServices
+    public class UserOperationExampleServices : IUserOperationExampleServices
     {
         private readonly IUnitOfWork _uow;
         private readonly IUserRepository _userRepository;
@@ -15,7 +15,7 @@ namespace Application.User
         /// </summary>
         /// <param name="userRepository">userRepository</param>
         /// <param name="uow">uow</param>
-        public UserServices(IUserRepository userRepository, IUnitOfWork uow)
+        public UserOperationExampleServices(IUserRepository userRepository, IUnitOfWork uow)
         {
             _uow = uow;
             _userRepository = userRepository;
@@ -47,30 +47,31 @@ namespace Application.User
         /// </summary>
         /// <param name="userInfo">userInfo</param>
         /// <returns></returns>
-        public async Task<bool> AddUserInfo(UserInfoViewModel userInfo)
+        public async Task<UserInfo> AddUserInfo(UserInfoViewModel userInfo)
         {
-            try
+            var addUserInfo = new UserInfo()
             {
-                var addUserInfo = new UserInfo()
-                {
-                    UserName = userInfo.UserName,
-                    Email = userInfo.Email,
-                    NickName = userInfo.NickName,
-                    Password = userInfo.Password,
-                    Status = 1,
-                    HeadPortrait = userInfo.HeadPortrait,
-                    CreateDate = DateTime.Now,
-                    UpdateDate = DateTime.Now,
-                };
-                await _userRepository.AddAsync(addUserInfo);
-                //提交新增用户信息操作
-                await _uow.Commit();
-                return true;
-            }
-            catch
-            {
-                return false;
-            }
+                UserName = userInfo.UserName,
+                Email = userInfo.Email,
+                NickName = userInfo.NickName,
+                Password = userInfo.Password,
+                Status = 1,
+                HeadPortrait = userInfo.HeadPortrait,
+                CreateDate = DateTime.Now,
+                UpdateDate = DateTime.Now,
+            };
+            await _userRepository.AddAsync(addUserInfo);
+
+            //查不到任何信息
+            var testUserInfo = await _userRepository.GetByIdAsync(addUserInfo.Id);
+
+            //提交新增用户信息操作
+            await _uow.Commit();
+
+            //UserInfo只有在提交后才会被添加
+            testUserInfo = await _userRepository.GetByIdAsync(addUserInfo.Id);
+
+            return testUserInfo;
         }
 
         /// <summary>
@@ -94,7 +95,9 @@ namespace Application.User
             };
 
             await _userRepository.UpdateAsync(updateUserInfo, id);
+
             await _uow.Commit();
+
             return await _userRepository.GetByIdAsync(id);
         }
 
@@ -105,17 +108,18 @@ namespace Application.User
         /// <returns></returns>
         public async Task<bool> Delete(string id)
         {
-            try
-            {
-                await _userRepository.DeleteAsync(id);
-                //提交用户删除操作
-                await _uow.Commit();
-                return true;
-            }
-            catch
-            {
-                return false;
-            }
+            await _userRepository.DeleteAsync(id);
+
+            //任然可以查询到用户信息
+            var testUserInfo = await _userRepository.GetByIdAsync(id);
+
+            //提交用户删除操作
+            await _uow.Commit();
+
+            //已经查询不到该用户信息了
+            testUserInfo = await _userRepository.GetByIdAsync(id);
+
+            return testUserInfo == null;
         }
     }
 }

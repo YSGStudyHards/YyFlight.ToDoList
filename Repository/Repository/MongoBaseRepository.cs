@@ -1,7 +1,10 @@
-﻿using MongoDB.Bson;
+﻿using Infrastructure.Extensions;
+using MongoDB.Bson;
 using MongoDB.Driver;
 using Repository.Interface;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq.Expressions;
+using System.Reflection;
 
 namespace Repository
 {
@@ -9,11 +12,14 @@ namespace Repository
     {
         protected readonly IMongoContext _context;
         protected readonly IMongoCollection<T> _dbSet;
+        private readonly string _CollectionName;
+
 
         protected MongoBaseRepository(IMongoContext context)
         {
             _context = context;
-            _dbSet = _context.GetCollection<T>(typeof(T).Name);
+            _CollectionName = typeof(T).GetAttributeValue((TableAttribute m) => m.Name) ?? typeof(T).Name;
+            _dbSet = _context.GetCollection<T>(_CollectionName);
         }
 
         #region 异步方法
@@ -152,8 +158,8 @@ namespace Repository
         /// <returns></returns>
         public async Task<T> GetByIdAsync(string id)
         {
-            var data = await _dbSet.FindAsync(Builders<T>.Filter.Eq(" _id ", id));
-            return data.FirstOrDefault();
+            var queryData = await _dbSet.FindAsync(Builders<T>.Filter.Eq(" _id ", new ObjectId(id)));
+            return queryData.FirstOrDefault();
         }
 
         /// <summary>
@@ -162,8 +168,8 @@ namespace Repository
         /// <returns></returns>
         public async Task<IEnumerable<T>> GetAllAsync()
         {
-            var all = await _dbSet.FindAsync(Builders<T>.Filter.Empty);
-            return all.ToList();
+            var queryAllData = await _dbSet.FindAsync(Builders<T>.Filter.Empty);
+            return queryAllData.ToList();
         }
 
         /// <summary>

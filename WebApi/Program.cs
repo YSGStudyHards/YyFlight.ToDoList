@@ -49,6 +49,7 @@ builder.Services.AddScoped<IUserRepository, UserRepository>();
 
 //注册相关应用服务
 builder.Services.AddScoped<IUserServices, UserServices>();
+builder.Services.AddScoped<IUserOperationExampleServices, UserOperationExampleServices>();
 
 var app = builder.Build();
 

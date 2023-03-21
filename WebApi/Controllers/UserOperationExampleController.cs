@@ -1,27 +1,27 @@
-﻿using Application.User;
-using Application.User.ViewModel;
+﻿using Application.User.ViewModel;
+using Application.User;
 using Microsoft.AspNetCore.Mvc;
 using Repository.Domain.User;
 
 namespace WebApi.Controllers
 {
     /// <summary>
-    /// 用户管理
+    /// MongoDB用户管理操作示例
     /// </summary>
     [ApiController]
     [Produces("application/json")]
     [Route("api/[controller]")]
-    public class UserController : ControllerBase
+    public class UserOperationExampleController : ControllerBase
     {
-        private readonly IUserServices _userServices;
+        private readonly IUserOperationExampleServices _userOperationExampleServices;
 
         /// <summary>
         /// 依赖注入
         /// </summary>
-        /// <param name="userServices">userServices</param>
-        public UserController(IUserServices userServices)
+        /// <param name="userOperationExampleServices">userOperationExampleServices</param>
+        public UserOperationExampleController(IUserOperationExampleServices userOperationExampleServices)
         {
-            _userServices = userServices;
+            _userOperationExampleServices = userOperationExampleServices;
         }
 
         /// <summary>
@@ -31,7 +31,7 @@ namespace WebApi.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<UserInfo>>> GetAllUserInfos()
         {
-            var userInfos = await _userServices.GetAllUserInfos();
+            var userInfos = await _userOperationExampleServices.GetAllUserInfos();
             return Ok(userInfos);
         }
 
@@ -43,7 +43,7 @@ namespace WebApi.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<UserInfo>> GetUserInfoById(string id)
         {
-            var userInfo = await _userServices.GetUserInfoById(id);
+            var userInfo = await _userOperationExampleServices.GetUserInfoById(id);
             return Ok(userInfo);
         }
 
@@ -53,10 +53,10 @@ namespace WebApi.Controllers
         /// <param name="userInfo">userInfo</param>
         /// <returns></returns>
         [HttpPost]
-        public async Task<ActionResult<bool>> AddUserInfo([FromBody] UserInfoViewModel userInfo)
+        public async Task<ActionResult<UserInfo>> AddUserInfo([FromBody] UserInfoViewModel userInfo)
         {
-            var result = await _userServices.AddUserInfo(userInfo);
-            return Ok(result);
+            var addUserInfo = await _userOperationExampleServices.AddUserInfo(userInfo);
+            return Ok(addUserInfo);
         }
 
         /// <summary>
@@ -68,7 +68,7 @@ namespace WebApi.Controllers
         [HttpPut("{id}")]
         public async Task<ActionResult<UserInfo>> UpdateUserInfo(string id, [FromBody] UserInfoViewModel userInfo)
         {
-            var updateUserInfo = await _userServices.UpdateUserInfo(id, userInfo);
+            var updateUserInfo = await _userOperationExampleServices.UpdateUserInfo(id, userInfo);
             return Ok(updateUserInfo);
         }
 
@@ -78,10 +78,10 @@ namespace WebApi.Controllers
         /// <param name="id">id</param>
         /// <returns></returns>
         [HttpDelete("{id}")]
-        public async Task<ActionResult<bool>> Delete(string id)
+        public async Task<ActionResult> Delete(string id)
         {
-            var result = await _userServices.Delete(id);
-            return Ok(result);
+            var deleteUser = await _userOperationExampleServices.Delete(id);
+            return Ok(deleteUser);
         }
     }
 }

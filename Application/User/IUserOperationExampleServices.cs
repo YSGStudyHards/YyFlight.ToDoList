@@ -3,7 +3,7 @@ using Repository.Domain.User;
 
 namespace Application.User
 {
-    public interface IUserServices
+    public interface IUserOperationExampleServices
     {
         /// <summary>
         /// 获取所有用户信息
@@ -23,7 +23,7 @@ namespace Application.User
         /// </summary>
         /// <param name="userInfo">userInfo</param>
         /// <returns></returns>
-        Task<bool> AddUserInfo(UserInfoViewModel userInfo);
+        Task<UserInfo> AddUserInfo(UserInfoViewModel userInfo);
 
         /// <summary>
         /// 用户信息修改
