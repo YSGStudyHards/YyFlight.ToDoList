@@ -1,9 +1,8 @@
 ﻿using MongoDB.Driver;
-using System;
 
 namespace Repository.Interface
 {
-    public interface IMongoContext
+    public interface IMongoContext : IDisposable
     {
         /// <summary>
         /// 添加命令操作
@@ -25,10 +24,5 @@ namespace Repository.Interface
         /// <param name="name"></param>
         /// <returns></returns>
         IMongoCollection<T> GetCollection<T>(string name);
-
-        /// <summary>
-        /// 释放上下文
-        /// </summary>
-        void Dispose();
     }
 }

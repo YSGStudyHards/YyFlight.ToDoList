@@ -6,6 +6,7 @@ namespace Repository
 {
     public class MongoContext : IMongoContext
     {
+        public IClientSessionHandle Session { get; set; }
         private IMongoDatabase _database;
         private MongoClient _mongoClient;
         private readonly IConfiguration _configuration;
@@ -38,15 +39,15 @@ namespace Repository
         /// <returns></returns>
         public async Task<int> SaveChangesAsync()
         {
-            using (IClientSessionHandle session = await _mongoClient.StartSessionAsync())
+            using (Session = await _mongoClient.StartSessionAsync())
             {
-                session.StartTransaction();
+                Session.StartTransaction();
 
                 var commandTasks = _commands.Select(c => c());
 
                 await Task.WhenAll(commandTasks);
 
-                await session.CommitTransactionAsync();
+                await Session.CommitTransactionAsync();
             }
             return _commands.Count;
         }
@@ -68,6 +69,7 @@ namespace Repository
         /// </summary>
         public void Dispose()
         {
+            Session?.Dispose();
             GC.SuppressFinalize(this);
         }
     }
