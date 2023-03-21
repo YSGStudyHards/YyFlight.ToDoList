@@ -3,6 +3,8 @@ using Repository.Interface;
 using Repository;
 using Repository.Persistence;
 using System.Reflection;
+using Application.User;
+using Repository.Repositories.User;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -43,11 +45,14 @@ MongoDbPersistence.Configure();
 //注册数据库基础操作和工作单元
 builder.Services.AddScoped<IMongoContext, MongoContext>();
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
-//builder.Services.AddScoped<IProductRepository, ProductRepository>();
+builder.Services.AddScoped<IUserRepository, UserRepository>();
 
-
+//注册相关应用服务
+builder.Services.AddScoped<IUserServices, UserServices>();
 
 var app = builder.Build();
+
+
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())

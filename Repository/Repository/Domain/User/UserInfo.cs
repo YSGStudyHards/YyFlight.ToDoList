@@ -1,10 +1,8 @@
 ﻿using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
-using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Repository.Domain.User
 {
-    [Table("yyflight_todolist_user")]
     public class UserInfo
     {
         /// <summary>
