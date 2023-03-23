@@ -1,5 +1,5 @@
 ﻿using Application.User;
-using Application.User.ViewModel;
+using Application.User.RequestModel;
 using Microsoft.AspNetCore.Mvc;
 using Repository.Domain.User;
 
@@ -10,7 +10,7 @@ namespace WebApi.Controllers
     /// </summary>
     [ApiController]
     [Produces("application/json")]
-    [Route("api/[controller]")]
+    [Route("api/[controller]/[action]")]
     public class UserController : ControllerBase
     {
         private readonly IUserServices _userServices;
@@ -53,7 +53,7 @@ namespace WebApi.Controllers
         /// <param name="userInfo">userInfo</param>
         /// <returns></returns>
         [HttpPost]
-        public async Task<ActionResult<bool>> AddUserInfo([FromBody] UserInfoViewModel userInfo)
+        public async Task<ActionResult<bool>> AddUserInfo([FromBody] UserInfoReq userInfo)
         {
             var result = await _userServices.AddUserInfo(userInfo);
             return Ok(result);
@@ -66,7 +66,7 @@ namespace WebApi.Controllers
         /// <param name="userInfo">userInfo</param>
         /// <returns></returns>
         [HttpPut("{id}")]
-        public async Task<ActionResult<UserInfo>> UpdateUserInfo(string id, [FromBody] UserInfoViewModel userInfo)
+        public async Task<ActionResult<UserInfo>> UpdateUserInfo(string id, [FromBody] UserInfoReq userInfo)
         {
             var updateUserInfo = await _userServices.UpdateUserInfo(id, userInfo);
             return Ok(updateUserInfo);

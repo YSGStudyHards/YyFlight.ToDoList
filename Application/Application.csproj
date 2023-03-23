@@ -10,4 +10,8 @@
     <ProjectReference Include="..\Repository\Repository\Repository.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="User\ResponseModel\" />
+  </ItemGroup>
+
 </Project>

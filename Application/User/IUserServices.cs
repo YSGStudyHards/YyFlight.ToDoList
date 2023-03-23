@@ -1,4 +1,4 @@
-﻿using Application.User.ViewModel;
+﻿using Application.User.RequestModel;
 using Repository.Domain.User;
 
 namespace Application.User
@@ -23,7 +23,7 @@ namespace Application.User
         /// </summary>
         /// <param name="userInfo">userInfo</param>
         /// <returns></returns>
-        Task<bool> AddUserInfo(UserInfoViewModel userInfo);
+        Task<bool> AddUserInfo(UserInfoReq userInfo);
 
         /// <summary>
         /// 用户信息修改
@@ -31,7 +31,7 @@ namespace Application.User
         /// <param name="id">id</param>
         /// <param name="userInfo">userInfo</param>
         /// <returns></returns>
-        Task<UserInfo> UpdateUserInfo(string id, UserInfoViewModel userInfo);
+        Task<UserInfo> UpdateUserInfo(string id, UserInfoReq userInfo);
 
         /// <summary>
         /// 用户信息删除

@@ -1,4 +1,4 @@
-﻿using Application.User.ViewModel;
+﻿using Application.User.RequestModel;
 using Repository.Domain.User;
 
 namespace Application.User
@@ -12,6 +12,13 @@ namespace Application.User
         Task<IEnumerable<UserInfo>> GetAllUserInfos();
 
         /// <summary>
+        /// 用户分页数据获取
+        /// </summary>
+        /// <param name="userInfoByPageListReq">userInfoByPageListReq</param>
+        /// <returns></returns>
+        Task<IEnumerable<UserInfo>> GetUserInfoByPageList(UserInfoByPageListReq userInfoByPageListReq);
+
+        /// <summary>
         /// 通过用户ID获取对应用户信息
         /// </summary>
         /// <param name="id">id</param>
@@ -23,7 +30,7 @@ namespace Application.User
         /// </summary>
         /// <param name="userInfo">userInfo</param>
         /// <returns></returns>
-        Task<UserInfo> AddUserInfo(UserInfoViewModel userInfo);
+        Task<UserInfo> AddUserInfo(UserInfoReq userInfo);
 
         /// <summary>
         /// 用户信息修改
@@ -31,7 +38,7 @@ namespace Application.User
         /// <param name="id">id</param>
         /// <param name="userInfo">userInfo</param>
         /// <returns></returns>
-        Task<UserInfo> UpdateUserInfo(string id, UserInfoViewModel userInfo);
+        Task<UserInfo> UpdateUserInfo(string id, UserInfoReq userInfo);
 
         /// <summary>
         /// 用户信息删除

@@ -1,5 +1,5 @@
-﻿using Application.User.ViewModel;
-using Application.User;
+﻿using Application.User;
+using Application.User.RequestModel;
 using Microsoft.AspNetCore.Mvc;
 using Repository.Domain.User;
 
@@ -10,7 +10,7 @@ namespace WebApi.Controllers
     /// </summary>
     [ApiController]
     [Produces("application/json")]
-    [Route("api/[controller]")]
+    [Route("api/[controller]/[action]")]
     public class UserOperationExampleController : ControllerBase
     {
         private readonly IUserOperationExampleServices _userOperationExampleServices;
@@ -36,6 +36,18 @@ namespace WebApi.Controllers
         }
 
         /// <summary>
+        /// 获取用户分页数据
+        /// </summary>
+        /// <param name="userInfoByPageListReq">userInfoByPageListReq</param>
+        /// <returns></returns>
+        [HttpPost]
+        public async Task<ActionResult<IEnumerable<UserInfo>>> GetUserInfoByPageList([FromBody] UserInfoByPageListReq userInfoByPageListReq)
+        {
+            var getUserInfoByPageList = await _userOperationExampleServices.GetUserInfoByPageList(userInfoByPageListReq);
+            return Ok(getUserInfoByPageList);
+        }
+
+        /// <summary>
         /// 通过用户ID获取对应用户信息
         /// </summary>
         /// <param name="id">id</param>
@@ -53,7 +65,7 @@ namespace WebApi.Controllers
         /// <param name="userInfo">userInfo</param>
         /// <returns></returns>
         [HttpPost]
-        public async Task<ActionResult<UserInfo>> AddUserInfo([FromBody] UserInfoViewModel userInfo)
+        public async Task<ActionResult<UserInfo>> AddUserInfo([FromBody] UserInfoReq userInfo)
         {
             var addUserInfo = await _userOperationExampleServices.AddUserInfo(userInfo);
             return Ok(addUserInfo);
@@ -66,7 +78,7 @@ namespace WebApi.Controllers
         /// <param name="userInfo">userInfo</param>
         /// <returns></returns>
         [HttpPut("{id}")]
-        public async Task<ActionResult<UserInfo>> UpdateUserInfo(string id, [FromBody] UserInfoViewModel userInfo)
+        public async Task<ActionResult<UserInfo>> UpdateUserInfo(string id, [FromBody] UserInfoReq userInfo)
         {
             var updateUserInfo = await _userOperationExampleServices.UpdateUserInfo(id, userInfo);
             return Ok(updateUserInfo);

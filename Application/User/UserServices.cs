@@ -1,4 +1,4 @@
-﻿using Application.User.ViewModel;
+﻿using Application.User.RequestModel;
 using MongoDB.Bson;
 using Repository.Domain.User;
 using Repository.Repositories.User;
@@ -44,7 +44,7 @@ namespace Application.User
         /// </summary>
         /// <param name="userInfo">userInfo</param>
         /// <returns></returns>
-        public async Task<bool> AddUserInfo(UserInfoViewModel userInfo)
+        public async Task<bool> AddUserInfo(UserInfoReq userInfo)
         {
             try
             {
@@ -75,7 +75,7 @@ namespace Application.User
         /// <param name="id">id</param>
         /// <param name="userInfo">userInfo</param>
         /// <returns></returns>
-        public async Task<UserInfo> UpdateUserInfo(string id, UserInfoViewModel userInfo)
+        public async Task<UserInfo> UpdateUserInfo(string id, UserInfoReq userInfo)
         {
             var updateUserInfo = new UserInfo()
             {

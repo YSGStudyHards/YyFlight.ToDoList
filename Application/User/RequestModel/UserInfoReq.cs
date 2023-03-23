@@ -1,12 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Application.User.ViewModel
+﻿namespace Application.User.RequestModel
 {
-    public class UserInfoViewModel
+    public class UserInfoReq
     {
         /// <summary>
         /// 登录账号
