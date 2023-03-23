@@ -5,18 +5,13 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace Repository.Domain.TodoTask
 {
     [Table("yyflight_todolist_content")]
-    public class TodoListContent
+    public class TodoListContent: EntityBase
     {
-        /// <summary>
-        /// 用户ID（主键）
-        /// </summary>
-        [BsonId]
-        [BsonRepresentation(BsonType.ObjectId)]
-        public string Id { get; set; }
-
         /// <summary>
         /// 用户主键ID
         /// </summary>
+        [BsonId]
+        [BsonRepresentation(BsonType.ObjectId)]
         public string UserID { get; set; }
 
         /// <summary>
@@ -44,15 +39,5 @@ namespace Repository.Domain.TodoTask
         /// 完成状态（0待完成，1已完成）
         /// </summary>
         public int CompleteStatus { get; set; }
-
-        /// <summary>
-        /// 创建时间
-        /// </summary>
-        public DateTime CreateDate { get; set; }
-
-        /// <summary>
-        /// 更新时间
-        /// </summary>
-        public DateTime UpdateDate { get; set; }
     }
 }

@@ -6,7 +6,6 @@ namespace Repository
 {
     public class MongoContext : IMongoContext
     {
-        public IClientSessionHandle Session { get; set; }
         private IMongoDatabase _database;
         private MongoClient _mongoClient;
         private readonly IConfiguration _configuration;
@@ -34,26 +33,6 @@ namespace Repository
         }
 
         /// <summary>
-        /// 保存更改
-        /// </summary>
-        /// <returns></returns>
-        public async Task<int> SaveChangesAsync()
-        {
-            using (Session = await _mongoClient.StartSessionAsync())
-            {
-                Session.StartTransaction();
-
-                var commandTasks = _commands.Select(c => c());
-
-                await Task.WhenAll(commandTasks);
-
-                await Session.CommitTransactionAsync();
-            }
-            return _commands.Count;
-        }
-
-
-        /// <summary>
         /// 获取MongoDB集合
         /// </summary>
         /// <typeparam name="T"></typeparam>
@@ -69,7 +48,6 @@ namespace Repository
         /// </summary>
         public void Dispose()
         {
-            Session?.Dispose();
             GC.SuppressFinalize(this);
         }
     }

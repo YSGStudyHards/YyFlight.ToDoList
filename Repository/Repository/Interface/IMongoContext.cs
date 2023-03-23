@@ -5,19 +5,6 @@ namespace Repository.Interface
     public interface IMongoContext : IDisposable
     {
         /// <summary>
-        /// 添加命令操作
-        /// </summary>
-        /// <param name="func"></param>
-        /// <returns></returns>
-        Task AddCommandAsync(Func<Task> func);
-
-        /// <summary>
-        /// 保存更改
-        /// </summary>
-        /// <returns></returns>
-        Task<int> SaveChangesAsync();
-
-        /// <summary>
         /// 获取集合数据
         /// </summary>
         /// <typeparam name="T"></typeparam>

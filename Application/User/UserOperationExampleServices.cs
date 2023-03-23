@@ -1,23 +1,20 @@
 ﻿using Application.User.ViewModel;
+using MongoDB.Bson;
 using Repository.Domain.User;
-using Repository.Interface;
 using Repository.Repositories.User;
 
 namespace Application.User
 {
     public class UserOperationExampleServices : IUserOperationExampleServices
     {
-        private readonly IUnitOfWork _uow;
         private readonly IUserRepository _userRepository;
 
         /// <summary>
         /// 依赖注入
         /// </summary>
         /// <param name="userRepository">userRepository</param>
-        /// <param name="uow">uow</param>
-        public UserOperationExampleServices(IUserRepository userRepository, IUnitOfWork uow)
+        public UserOperationExampleServices(IUserRepository userRepository)
         {
-            _uow = uow;
             _userRepository = userRepository;
         }
 
@@ -38,8 +35,8 @@ namespace Application.User
         /// <returns></returns>
         public async Task<UserInfo> GetUserInfoById(string id)
         {
-            var userInfo = await _userRepository.GetByIdAsync(id);
-            return userInfo;
+            var getUserInfo = await _userRepository.GetByIdAsync(id);
+            return getUserInfo;
         }
 
         /// <summary>
@@ -51,6 +48,7 @@ namespace Application.User
         {
             var addUserInfo = new UserInfo()
             {
+                Id = ObjectId.GenerateNewId().ToString(),
                 UserName = userInfo.UserName,
                 Email = userInfo.Email,
                 NickName = userInfo.NickName,
@@ -61,17 +59,8 @@ namespace Application.User
                 UpdateDate = DateTime.Now,
             };
             await _userRepository.AddAsync(addUserInfo);
-
-            //查不到任何信息
-            var testUserInfo = await _userRepository.GetByIdAsync(addUserInfo.Id);
-
-            //提交新增用户信息操作
-            await _uow.Commit();
-
-            //UserInfo只有在提交后才会被添加
-            testUserInfo = await _userRepository.GetByIdAsync(addUserInfo.Id);
-
-            return testUserInfo;
+            var queryUserInfo = await _userRepository.GetByIdAsync(addUserInfo.Id);
+            return queryUserInfo;
         }
 
         /// <summary>
@@ -93,11 +82,7 @@ namespace Application.User
                 CreateDate = DateTime.Now,
                 UpdateDate = DateTime.Now,
             };
-
             await _userRepository.UpdateAsync(updateUserInfo, id);
-
-            await _uow.Commit();
-
             return await _userRepository.GetByIdAsync(id);
         }
 
@@ -109,16 +94,7 @@ namespace Application.User
         public async Task<bool> Delete(string id)
         {
             await _userRepository.DeleteAsync(id);
-
-            //任然可以查询到用户信息
             var testUserInfo = await _userRepository.GetByIdAsync(id);
-
-            //提交用户删除操作
-            await _uow.Commit();
-
-            //已经查询不到该用户信息了
-            testUserInfo = await _userRepository.GetByIdAsync(id);
-
             return testUserInfo == null;
         }
     }

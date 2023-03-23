@@ -9,8 +9,6 @@ using Repository.Repositories.User;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-
-//builder.Services.AddMvc();
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 
@@ -39,12 +37,8 @@ builder.Services.AddSwaggerGen(options =>
     options.OrderActionsBy(o => o.RelativePath); 
 });
 
-//MongoDB持久化配置
-MongoDbPersistence.Configure();
-
 //注册数据库基础操作和工作单元
 builder.Services.AddScoped<IMongoContext, MongoContext>();
-builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 
 //注册相关应用服务
@@ -75,6 +69,5 @@ app.UseSwaggerUI(options =>
 app.UseHttpsRedirection();
 
 app.MapControllers();
-
 
 app.Run();

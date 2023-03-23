@@ -1,23 +1,20 @@
 ﻿using Application.User.ViewModel;
+using MongoDB.Bson;
 using Repository.Domain.User;
-using Repository.Interface;
 using Repository.Repositories.User;
 
 namespace Application.User
 {
     public class UserServices : IUserServices
     {
-        private readonly IUnitOfWork _uow;
         private readonly IUserRepository _userRepository;
 
         /// <summary>
         /// 依赖注入
         /// </summary>
         /// <param name="userRepository">userRepository</param>
-        /// <param name="uow">uow</param>
-        public UserServices(IUserRepository userRepository, IUnitOfWork uow)
+        public UserServices(IUserRepository userRepository)
         {
-            _uow = uow;
             _userRepository = userRepository;
         }
 
@@ -38,8 +35,8 @@ namespace Application.User
         /// <returns></returns>
         public async Task<UserInfo> GetUserInfoById(string id)
         {
-            var userInfo = await _userRepository.GetByIdAsync(id);
-            return userInfo;
+            var getUserInfo = await _userRepository.GetByIdAsync(id);
+            return getUserInfo;
         }
 
         /// <summary>
@@ -53,6 +50,7 @@ namespace Application.User
             {
                 var addUserInfo = new UserInfo()
                 {
+                    Id=ObjectId.GenerateNewId().ToString(),
                     UserName = userInfo.UserName,
                     Email = userInfo.Email,
                     NickName = userInfo.NickName,
@@ -63,8 +61,6 @@ namespace Application.User
                     UpdateDate = DateTime.Now,
                 };
                 await _userRepository.AddAsync(addUserInfo);
-                //提交新增用户信息操作
-                await _uow.Commit();
                 return true;
             }
             catch
@@ -92,9 +88,7 @@ namespace Application.User
                 CreateDate = DateTime.Now,
                 UpdateDate = DateTime.Now,
             };
-
             await _userRepository.UpdateAsync(updateUserInfo, id);
-            await _uow.Commit();
             return await _userRepository.GetByIdAsync(id);
         }
 
@@ -108,8 +102,6 @@ namespace Application.User
             try
             {
                 await _userRepository.DeleteAsync(id);
-                //提交用户删除操作
-                await _uow.Commit();
                 return true;
             }
             catch

@@ -4,7 +4,6 @@ using MongoDB.Driver;
 using Repository.Interface;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq.Expressions;
-using System.Security.Cryptography;
 
 namespace Repository
 {
@@ -30,7 +29,7 @@ namespace Repository
         /// <returns></returns>
         public async Task AddAsync(T objData)
         {
-            await _context.AddCommandAsync(async () => await _dbSet.InsertOneAsync(objData));
+             await _dbSet.InsertOneAsync(objData);
         }
 
         /// <summary>
@@ -40,7 +39,7 @@ namespace Repository
         /// <returns></returns>
         public async Task InsertManyAsync(List<T> objDatas)
         {
-           await _context.AddCommandAsync(async () => await _dbSet.InsertManyAsync(objDatas));
+            await _dbSet.InsertManyAsync(objDatas);
         }
 
         /// <summary>
@@ -50,7 +49,7 @@ namespace Repository
         /// <returns></returns>
         public async Task DeleteAsync(string id)
         {
-            await _context.AddCommandAsync(() => _dbSet.DeleteOneAsync(Builders<T>.Filter.Eq(" _id ", id)));
+            await _dbSet.DeleteOneAsync(Builders<T>.Filter.Eq("_id", new ObjectId(id)));
         }
 
         /// <summary>
@@ -71,10 +70,7 @@ namespace Repository
                 list.Add(Builders<T>.Update.Set(item.Name, item.GetValue(obj)));
             }
             var updatefilter = Builders<T>.Update.Combine(list);
-            await _context.AddCommandAsync(async () =>
-            {
-                await _dbSet.UpdateOneAsync(filter, updatefilter);
-            });
+            await _dbSet.UpdateOneAsync(filter, updatefilter);
         }
 
         /// <summary>
@@ -115,10 +111,7 @@ namespace Repository
                 }
             }
 
-            await _context.AddCommandAsync(async () =>
-            {
-              await _dbSet.UpdateOneAsync(expression, Builders<T>.Update.Combine(fieldList));
-            });
+            await _dbSet.UpdateOneAsync(expression, Builders<T>.Update.Combine(fieldList));
         }
 
         /// <summary>
@@ -129,10 +122,7 @@ namespace Repository
         /// <returns></returns>
         public async Task UpdateAsync(FilterDefinition<T> filter, UpdateDefinition<T> update)
         {
-            await _context.AddCommandAsync(async () =>
-            {
-                await _dbSet.UpdateOneAsync(filter, update);
-            });
+            await _dbSet.UpdateOneAsync(filter, update);
         }
 
         /// <summary>
@@ -144,10 +134,7 @@ namespace Repository
         public async Task UpdateManyAsync(Expression<Func<T, bool>> expression,
             UpdateDefinition<T> update)
         {
-            await _context.AddCommandAsync(async () =>
-            {
-                await _dbSet.UpdateManyAsync(expression, update);
-            });
+            await _dbSet.UpdateManyAsync(expression, update);
         }
 
         /// <summary>
@@ -157,11 +144,8 @@ namespace Repository
         /// <returns></returns>
         public async Task<T> GetByIdAsync(string id)
         {
-            var builder = Builders<T>.Filter;
-            var filter = builder.Eq(" _id ", ObjectId.Parse(id));
-            var queryData =_dbSet.Find(filter/*Builders<T>.Filter.Eq(" _id ", new ObjectId(id))*/);
-            var ttt= queryData.ToList();
-            return await queryData.FirstOrDefaultAsync();
+            var queryData = await _dbSet.FindAsync(Builders<T>.Filter.Eq("_id", new ObjectId(id)));
+            return queryData.FirstOrDefault();
         }
 
         /// <summary>
