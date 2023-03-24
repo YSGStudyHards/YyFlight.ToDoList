@@ -1,7 +1,6 @@
 using Microsoft.OpenApi.Models;
 using Repository.Interface;
 using Repository;
-using Repository.Persistence;
 using System.Reflection;
 using Application.User;
 using Repository.Repositories.User;
@@ -49,7 +48,6 @@ builder.Services.AddScoped<IUserOperationExampleServices, UserOperationExampleSe
 var app = builder.Build();
 
 
-
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
@@ -57,7 +55,6 @@ if (app.Environment.IsDevelopment())
 }
 
 //使中间件能够将生成的Swagger用作JSON端点.
-//app.UseSwagger();
 app.UseSwagger(c => { c.RouteTemplate = "swagger/{documentName}/swagger.json"; });
 //允许中间件为Swagger UI（HTML、JS、CSS等）提供服务，指定swagger JSON端点.
 app.UseSwaggerUI(options =>
