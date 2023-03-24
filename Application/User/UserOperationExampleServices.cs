@@ -4,20 +4,24 @@ using Infrastructure.Extensions;
 using MongoDB.Bson;
 using MongoDB.Driver;
 using Repository.Domain.User;
+using Repository.Interface;
 using Repository.Repositories.User;
 
 namespace Application.User
 {
     public class UserOperationExampleServices : IUserOperationExampleServices
     {
+        private readonly IUnitOfWork _unitOfWork;
         private readonly IUserRepository _userRepository;
 
         /// <summary>
         /// 依赖注入
         /// </summary>
+        /// <param name="unitOfWork">unitOfWork</param>
         /// <param name="userRepository">userRepository</param>
-        public UserOperationExampleServices(IUserRepository userRepository)
+        public UserOperationExampleServices(IUnitOfWork unitOfWork, IUserRepository userRepository)
         {
+            _unitOfWork = unitOfWork;
             _userRepository = userRepository;
         }
 
@@ -88,6 +92,39 @@ namespace Application.User
             };
             await _userRepository.AddAsync(addUserInfo);
             var queryUserInfo = await _userRepository.GetByIdAsync(addUserInfo.Id);
+            return queryUserInfo;
+        }
+
+        /// <summary>
+        /// 事务添加用户信息
+        /// </summary>
+        /// <param name="userInfo">userInfo</param>
+        /// <returns></returns>
+        public async Task<UserInfo> AddUserInfoTransactions(UserInfoReq userInfo)
+        {
+            var addUserInfo = new UserInfo()
+            {
+                Id = ObjectId.GenerateNewId().ToString(),
+                UserName = userInfo.UserName,
+                Email = userInfo.Email,
+                NickName = userInfo.NickName,
+                Password = MD5Helper.MDString(userInfo.Password),
+                Status = 1,
+                HeadPortrait = userInfo.HeadPortrait,
+                CreateDate = DateTime.Now,
+                UpdateDate = DateTime.Now,
+            };
+            await _userRepository.AddTransactionsAsync(addUserInfo);
+
+            //查不到任何信息
+            var queryUserInfo = await _userRepository.GetByIdAsync(addUserInfo.Id);
+
+            //提交新增用户信息操作
+            await _unitOfWork.Commit();
+
+            //UserInfo只有在提交后才会被添加
+            queryUserInfo = await _userRepository.GetByIdAsync(addUserInfo.Id);
+
             return queryUserInfo;
         }
 

@@ -33,6 +33,13 @@ namespace Application.User
         Task<UserInfo> AddUserInfo(UserInfoReq userInfo);
 
         /// <summary>
+        /// 事务添加用户信息
+        /// </summary>
+        /// <param name="userInfo">userInfo</param>
+        /// <returns></returns>
+        Task<UserInfo> AddUserInfoTransactions(UserInfoReq userInfo);
+
+        /// <summary>
         /// 用户信息修改
         /// </summary>
         /// <param name="id">id</param>

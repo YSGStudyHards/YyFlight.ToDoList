@@ -20,6 +20,41 @@ namespace Repository
             _dbSet = _context.GetCollection<T>(_collectionName);
         }
 
+        #region 事务操作示例
+
+        /// <summary>
+        /// 事务添加数据
+        /// </summary>
+        /// <param name="objData">添加数据</param>
+        /// <returns></returns>
+        public async Task AddTransactionsAsync(T objData)
+        {
+            await _context.AddCommandAsync(async () => await _dbSet.InsertOneAsync(objData));
+        }
+
+        /// <summary>
+        /// 事务数据删除
+        /// </summary>
+        /// <param name="id">objectId</param>
+        /// <returns></returns>
+        public async Task DeleteTransactionsAsync(string id)
+        {
+            await _context.AddCommandAsync(() => _dbSet.DeleteOneAsync(Builders<T>.Filter.Eq(" _id ", id)));
+        }
+
+        /// <summary>
+        /// 事务异步局部更新（仅更新一条记录）
+        /// </summary>
+        /// <param name="filter">过滤器</param>
+        /// <param name="update">更新条件</param>
+        /// <returns></returns>
+        public async Task UpdateTransactionsAsync(FilterDefinition<T> filter, UpdateDefinition<T> update)
+        {
+            await _context.AddCommandAsync(() => _dbSet.UpdateOneAsync(filter, update));
+        }
+
+        #endregion
+
         #region 添加相关操作
 
         /// <summary>

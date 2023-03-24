@@ -39,6 +39,7 @@ builder.Services.AddSwaggerGen(options =>
 
 //注册数据库基础操作和工作单元
 builder.Services.AddScoped<IMongoContext, MongoContext>();
+builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 
 //注册相关应用服务
