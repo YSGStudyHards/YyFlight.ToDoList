@@ -7,6 +7,9 @@ using System.Threading.Tasks;
 
 namespace Repository
 {
+    /// <summary>
+    /// 工作单元类
+    /// </summary>
     public class UnitOfWork : IUnitOfWork
     {
         private readonly IMongoContext _context;
@@ -16,6 +19,10 @@ namespace Repository
             _context = context;
         }
 
+        /// <summary>
+        /// 提交保存更改
+        /// </summary>
+        /// <returns></returns>
         public async Task<bool> Commit()
         {
             return await _context.SaveChangesAsync() > 0;
