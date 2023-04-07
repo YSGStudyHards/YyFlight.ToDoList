@@ -1,5 +1,4 @@
-﻿using Amazon.Runtime.Internal;
-using Application.User.RequestModel;
+﻿using Application.User.RequestModel;
 using Infrastructure.Extensions;
 using MongoDB.Bson;
 using MongoDB.Driver;

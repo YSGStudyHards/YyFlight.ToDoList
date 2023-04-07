@@ -1,5 +1,4 @@
-﻿using MongoDB.Driver;
-using Repository.Domain.User;
+﻿using Repository.Domain.User;
 using Repository.Interface;
 
 namespace Repository.Repositories.User
