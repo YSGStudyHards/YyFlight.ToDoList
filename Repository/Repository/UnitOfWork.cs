@@ -1,9 +1,5 @@
-﻿using Repository.Interface;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using MongoDB.Driver;
+using Repository.Interface;
 
 namespace Repository
 {
@@ -22,10 +18,20 @@ namespace Repository
         /// <summary>
         /// 提交保存更改
         /// </summary>
+        /// <param name="session">MongoDB 会话（session）对象</param>
         /// <returns></returns>
-        public async Task<bool> Commit()
+        public async Task<bool> Commit(IClientSessionHandle session)
         {
-            return await _context.SaveChangesAsync() > 0;
+            return await _context.SaveChangesAsync(session) > 0;
+        }
+
+        /// <summary>
+        /// 初始化MongoDB会话对象session
+        /// </summary>
+        /// <returns></returns>
+        public async Task<IClientSessionHandle> InitTransaction()
+        {
+            return await _context.StartSessionAsync();
         }
 
         public void Dispose()

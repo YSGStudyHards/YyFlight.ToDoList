@@ -101,6 +101,7 @@ namespace Application.User
         /// <returns></returns>
         public async Task<UserInfo> AddUserInfoTransactions(UserInfoReq userInfo)
         {
+            using var session = await _unitOfWork.InitTransaction();
             var addUserInfo = new UserInfo()
             {
                 Id = ObjectId.GenerateNewId().ToString(),
@@ -113,13 +114,13 @@ namespace Application.User
                 CreateDate = DateTime.Now,
                 UpdateDate = DateTime.Now,
             };
-            await _userRepository.AddTransactionsAsync(addUserInfo);
+            await _userRepository.AddTransactionsAsync(session, addUserInfo);
 
             //查不到任何信息
             var queryUserInfo = await _userRepository.GetByIdAsync(addUserInfo.Id);
 
             //提交新增用户信息操作
-            await _unitOfWork.Commit();
+            await _unitOfWork.Commit(session);
 
             //UserInfo只有在提交后才会被添加
             queryUserInfo = await _userRepository.GetByIdAsync(addUserInfo.Id);

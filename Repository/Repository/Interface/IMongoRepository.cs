@@ -10,24 +10,27 @@ namespace Repository.Interface
         /// <summary>
         /// 事务添加数据
         /// </summary>
+        /// <param name="session">MongoDB 会话（session）对象</param>
         /// <param name="objData">添加数据</param>
         /// <returns></returns>
-        Task AddTransactionsAsync(T objData);
+        Task AddTransactionsAsync(IClientSessionHandle session, T objData);
 
         /// <summary>
         /// 事务数据删除
         /// </summary>
+        /// <param name="session">MongoDB 会话（session）对象</param>
         /// <param name="id">objectId</param>
         /// <returns></returns>
-        Task DeleteTransactionsAsync(string id);
+        Task DeleteTransactionsAsync(IClientSessionHandle session, string id);
 
         /// <summary>
         /// 事务异步局部更新（仅更新一条记录）
         /// </summary>
+        /// <param name="session">MongoDB 会话（session）对象</param>
         /// <param name="filter">过滤器</param>
         /// <param name="update">更新条件</param>
         /// <returns></returns>
-        Task UpdateTransactionsAsync(FilterDefinition<T> filter, UpdateDefinition<T> update);
+        Task UpdateTransactionsAsync(IClientSessionHandle session, FilterDefinition<T> filter, UpdateDefinition<T> update);
 
         #endregion
 

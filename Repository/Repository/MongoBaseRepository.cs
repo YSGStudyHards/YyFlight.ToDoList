@@ -25,32 +25,35 @@ namespace Repository
         /// <summary>
         /// 事务添加数据
         /// </summary>
+        /// <param name="session">MongoDB 会话（session）对象</param>
         /// <param name="objData">添加数据</param>
         /// <returns></returns>
-        public async Task AddTransactionsAsync(T objData)
+        public async Task AddTransactionsAsync(IClientSessionHandle session, T objData)
         {
-            await _context.AddCommandAsync(async () => await _dbSet.InsertOneAsync(objData));
+            await _context.AddCommandAsync(async (session) => await _dbSet.InsertOneAsync(objData));
         }
 
         /// <summary>
         /// 事务数据删除
         /// </summary>
+        /// <param name="session">MongoDB 会话（session）对象</param>
         /// <param name="id">objectId</param>
         /// <returns></returns>
-        public async Task DeleteTransactionsAsync(string id)
+        public async Task DeleteTransactionsAsync(IClientSessionHandle session, string id)
         {
-            await _context.AddCommandAsync(() => _dbSet.DeleteOneAsync(Builders<T>.Filter.Eq(" _id ", id)));
+            await _context.AddCommandAsync((session) => _dbSet.DeleteOneAsync(Builders<T>.Filter.Eq(" _id ", id)));
         }
 
         /// <summary>
         /// 事务异步局部更新（仅更新一条记录）
         /// </summary>
+        /// <param name="session">MongoDB 会话（session）对象</param>
         /// <param name="filter">过滤器</param>
         /// <param name="update">更新条件</param>
         /// <returns></returns>
-        public async Task UpdateTransactionsAsync(FilterDefinition<T> filter, UpdateDefinition<T> update)
+        public async Task UpdateTransactionsAsync(IClientSessionHandle session, FilterDefinition<T> filter, UpdateDefinition<T> update)
         {
-            await _context.AddCommandAsync(() => _dbSet.UpdateOneAsync(filter, update));
+            await _context.AddCommandAsync((session) => _dbSet.UpdateOneAsync(filter, update));
         }
 
         #endregion
