@@ -7,11 +7,13 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Repository\Repository\Repository.csproj" />
+    <Compile Remove="User\ResponseModel\**" />
+    <EmbeddedResource Remove="User\ResponseModel\**" />
+    <None Remove="User\ResponseModel\**" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="User\ResponseModel\" />
+    <ProjectReference Include="..\Repository\Repository\Repository.csproj" />
   </ItemGroup>
 
 </Project>

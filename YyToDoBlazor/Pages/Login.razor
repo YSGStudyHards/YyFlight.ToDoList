@@ -1,0 +1,43 @@
+﻿@page "/login"
+@using AntDesign
+@using YyToDoBlazor.Models;
+
+<ProLayout>
+    <Content Style="min-height: calc(100vh - 64px); display: flex; align-items: center; justify-content: center;">
+        <Card Style="width: 360px;">
+            <Form Model="@loginModel" OnFinish="@HandleLogin">
+                <FormItem>
+                    <AntDesign.Input Placeholder="Username: admin or user" Size="large" @bind-Value="@loginModel.UserName">
+                        <Prefix><Icon Type="user" /></Prefix>
+                    </AntDesign.Input>
+                </FormItem>
+                <FormItem>
+                    <AntDesign.Input Placeholder="Password: ant.design" Size="large" @bind-Value="@loginModel.Password" Type="password">
+                        <Prefix><Icon Type="lock" /></Prefix>
+                    </AntDesign.Input>
+                </FormItem>
+                <FormItem>
+                    <Button Type="Primary" HtmlType="Submit" Block>Login</Button>
+                </FormItem>
+            </Form>
+        </Card>
+    </Content>
+    <Footer Style="text-align: center;">© 2023 My App</Footer>
+</ProLayout>
+
+@code {
+    private LoginParams loginModel = new LoginParams();
+
+    private async Task HandleLogin()
+    {
+        // 进行登录操作，可以在这里调用后端 API 进行验证
+        if (string.IsNullOrEmpty(loginModel.UserName) || string.IsNullOrEmpty(loginModel.Password))
+        {
+            // 处理登录失败的情况
+        }
+        else
+        {
+            // 处理登录成功的情况
+        }
+    }
+}

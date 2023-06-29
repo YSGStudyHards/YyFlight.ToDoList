@@ -1,0 +1,76 @@
+﻿@namespace YyToDoBlazor
+@inherits LayoutComponentBase
+
+<AntDesign.ProLayout.BasicLayout Logo="@("https://gw.alipayobjects.com/zos/rmsportal/KDpgvguMpGfqaHPjicRK.svg")"
+                                 MenuData="_menuData">
+    <RightContentRender>
+        <YyToDoBlazor.Components.RightContent />
+    </RightContentRender>
+    <ChildContent>
+        @Body
+    </ChildContent>
+    <FooterRender>
+        <FooterView Copyright="2021 Ant Design Blazor" Links="Links"></FooterView>
+    </FooterRender>
+</AntDesign.ProLayout.BasicLayout>
+<SettingDrawer />
+
+@code
+{
+    private readonly MenuDataItem[] _menuData =
+    {
+        new MenuDataItem
+        {
+            Path = "/Dashboard",
+            Name = "Dashboard",
+            Key = "Dashboard",
+            Icon = "bulb",
+        },
+        new MenuDataItem
+        {
+            Path = "/ToDoList",
+            Name = "待办清单",
+            Key = "ToDoList",
+            Icon = "book",
+        },
+        new MenuDataItem
+        {
+            Path = "/User",
+            Name = "个人信息",
+            Key = "User",
+            Icon = "user",
+        },
+        new MenuDataItem
+        {
+            Path = "/SystemSetting",
+            Name = "系统更新",
+            Key = "SystemSetting",
+            Icon = "setting",
+        }
+    };
+
+    public LinkItem[] Links { get; set; } =
+    {
+        new LinkItem
+        {
+            Key = "Ant Design Blazor",
+            Title = "Ant Design Blazor",
+            Href = "https://antblazor.com",
+            BlankTarget = true,
+        },
+        new LinkItem
+        {
+            Key = "github",
+            Title = (RenderFragment)(@<Icon Type="github" />),
+            Href = "https://github.com/ant-design-blazor/ant-design-pro-blazor",
+            BlankTarget = true,
+        },
+        new LinkItem
+        {
+            Key = "Blazor",
+            Title = "Blazor",
+            Href = "https://dotnet.microsoft.com/apps/aspnet/web-apps/blazor?WT.mc_id=DT-MVP-5003987",
+            BlankTarget = true,
+        }
+    };
+}
