@@ -1,23 +1,20 @@
 ﻿using MongoDB.Driver;
-using Microsoft.Extensions.Configuration;
 using Repository.Interface;
 
 namespace Repository
 {
     public class MongoContext : IMongoContext
     {
-        private readonly IMongoDatabase _database;
+        private readonly IMongoDatabase _databaseName;
         private readonly MongoClient _mongoClient;
-        private readonly IConfiguration _configuration;
         //这里将 _commands 中的每个元素都定义为一个 Func<IClientSessionHandle, Task> 委托，此委托表示一个需要 IClientSessionHandle 对象作为参数并返回一个异步任务的方法
         //每个委托都表示一个MongoDB 会话（session）对象和要执行的命令
         private readonly List<Func<IClientSessionHandle, Task>> _commands = new List<Func<IClientSessionHandle, Task>>();
 
-        public MongoContext(IConfiguration configuration)
+        public MongoContext(IMongoConnection mongoConnection)
         {
-            _configuration = configuration;
-            _mongoClient = new MongoClient(_configuration["MongoSettings:Connection"]);
-            _database = _mongoClient.GetDatabase(_configuration["MongoSettings:DatabaseName"]);
+            _mongoClient = mongoConnection.MongoDBClient;
+            _databaseName = mongoConnection.DatabaseName;
         }
 
         /// <summary>
@@ -82,7 +79,7 @@ namespace Repository
         /// <returns></returns>
         public IMongoCollection<T> GetCollection<T>(string name)
         {
-            return _database.GetCollection<T>(name);
+            return _databaseName.GetCollection<T>(name);
         }
 
         /// <summary>

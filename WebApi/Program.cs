@@ -14,8 +14,8 @@ builder.Services.AddEndpointsApiExplorer();
 // 添加Swagger服务
 builder.Services.AddSwaggerGen(options =>
 {
-    options.SwaggerDoc("v1", new OpenApiInfo 
-    { 
+    options.SwaggerDoc("v1", new OpenApiInfo
+    {
         Title = "ToDoList API",
         Version = "V1",
         Description = ".NET7使用MongoDB开发ToDoList系统",
@@ -33,10 +33,11 @@ builder.Services.AddSwaggerGen(options =>
     // 添加控制器层注释，true表示显示控制器注释
     options.IncludeXmlComments(xmlPath, true);
     // 对action的名称进行排序，如果有多个，就可以看见效果了
-    options.OrderActionsBy(o => o.RelativePath); 
+    options.OrderActionsBy(o => o.RelativePath);
 });
 
 //注册数据库基础操作和工作单元
+builder.Services.AddSingleton<IMongoConnection, MongoConnection>();
 builder.Services.AddScoped<IMongoContext, MongoContext>();
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
