@@ -13,7 +13,7 @@ namespace Repository.Interface
 
         /// <summary>
         /// 提交更改并返回受影响的行数
-        /// TODO：MongoDB单机服务器不支持事务【使用MongoDB事务会报错：Standalone servers do not support transactions】,只有在集群情况下才支持事务
+        /// TODO：MongoDB单机服务器不支持事务【使用MongoDB事务会报错：Standalone servers do not support transactions】,只有在集群情况下才支持事务【后面需要搭建集群环境测试】
         /// 原因：MongoDB在使用分布式事务时需要进行多节点之间的协调和通信，而单机环境下无法实现这样的分布式协调和通信机制。但是，在MongoDB部署为一个集群（cluster）后，将多个计算机连接为一个整体，通过协调和通信机制实现了分布式事务的正常使用。从数据一致性和可靠性的角度来看，在分布式系统中实现事务处理是至关重要的。而在单机环境下不支持事务，只有在集群情况下才支持事务的设计方式是为了保证数据一致性和可靠性，并且也符合分布式系统的设计思想。
         /// </summary>
         /// <param name="session">MongoDB 会话（session）对象</param>

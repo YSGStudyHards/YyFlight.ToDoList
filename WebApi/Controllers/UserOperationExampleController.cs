@@ -79,7 +79,7 @@ namespace WebApi.Controllers
         [HttpPost]
         public async Task<ActionResult<UserInfo>> AddUserInfoTransactions([FromBody] UserInfoReq userInfo)
         {
-            //TODO:单机服务器不支持事务使用【使用MongoDB事务会报错：Standalone servers do not support transactions】,只有在集群情况下才能用
+            //TODO：单机服务器不支持事务使用【使用MongoDB事务会报错：Standalone servers do not support transactions】,只有在集群情况下才能用【后面需要搭建集群环境测试】
             var addUserInfo = await _userOperationExampleServices.AddUserInfoTransactions(userInfo);
             return Ok(addUserInfo);
         }
